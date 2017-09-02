@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Rules;
+
 use Illuminate\Validation\Validator;
 use Media24si\Utilities\Rules\Sorter;
 use PHPUnit\Framework\TestCase;

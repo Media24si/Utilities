@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Scopes;
+
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,7 +11,7 @@ class Sorter extends \Illuminate\Database\Eloquent\Model
     use \Media24si\Utilities\Scopes\Sorter;
 }
 
-class SorterTestTest extends TestCase
+class SorterTest extends TestCase
 {
     public function tearDown()
     {
@@ -73,7 +75,7 @@ class SorterTestTest extends TestCase
 
     protected function getMockQueryBuilder()
     {
-        $query = m::mock('Illuminate\Database\Query\Builder');
+        $query = m::mock(\Illuminate\Database\Query\Builder::class);
         $query->shouldReceive('from')->with('foo_table');
 
         return $query;
