@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Validation\Validator;
+use Media24si\Utilities\Rules\CsvIn;
 use PHPUnit\Framework\TestCase;
 
 class CsvInTest extends TestCase
@@ -7,27 +9,63 @@ class CsvInTest extends TestCase
     /** @test */
     public function passWhenEmptyValue()
     {
-        $rule = new \Media24si\Utilities\Rules\CsvIn(['foo', 'bar']);
-        $this->assertTrue( $rule->passes('sort', '') );
+        $trans = $this->getIlluminateArrayTranslator();
+        $validator = new Validator($trans, ['field' => ''], [
+            'field' => new CsvIn(['foo', 'bar']),
+        ]);
+        $this->assertTrue($validator->passes());
     }
 
-    /** @test */
-    public function passForValidValues()
+    /**
+     * @test
+     * @dataProvider validValues
+     */
+    public function passForValidValues($options, $validValue)
     {
-        $rule = new \Media24si\Utilities\Rules\CsvIn(['foo', 'bar']);
-
-        $this->assertTrue( $rule->passes('sort', 'foo') );
-        $this->assertTrue( $rule->passes('sort', 'bar') );
-        $this->assertTrue( $rule->passes('sort', 'bar,foo') );
+        $trans = $this->getIlluminateArrayTranslator();
+        $validator = new Validator($trans, ['field' => $validValue], [
+            'field' => new CsvIn($options),
+        ]);
+        $this->assertTrue($validator->passes());
     }
 
-    /** @test */
-    public function failForInvalidValues()
+    /**
+     * @test
+     * @dataProvider invalidValues
+     */
+    public function failForInvalidValues($options, $invalidValue)
     {
-        $rule = new \Media24si\Utilities\Rules\CsvIn(['foo', 'bar']);
+        $trans = $this->getIlluminateArrayTranslator();
+        $validator = new Validator($trans, ['field' => $invalidValue], [
+            'field' => new CsvIn($options),
+        ]);
+        $this->assertFalse($validator->passes());
+        $this->assertEquals(['The field contains invalid field'], $validator->errors()->get('field'));
+    }
 
-        $this->assertFalse( $rule->passes('sort', 'john') );
-        $this->assertFalse( $rule->passes('sort', 'foo,-john') );
-        $this->assertFalse( $rule->passes('sort', 'foo,john') );
+    public function validValues()
+    {
+        return [
+            [['foo', 'bar'], 'foo'],
+            [['foo', 'bar'], 'bar'],
+            [['foo', 'bar'], 'bar,foo'],
+        ];
+    }
+
+    public function invalidValues()
+    {
+        return [
+            [['foo', 'bar'], 'john'],
+            [['foo', 'bar'], '-john'],
+            [['foo', 'bar'], 'foo,john'],
+            [['foo', 'bar'], 'john,-foo'],
+        ];
+    }
+
+    public function getIlluminateArrayTranslator()
+    {
+        return new \Illuminate\Translation\Translator(
+            new \Illuminate\Translation\ArrayLoader, 'en'
+        );
     }
 }
