@@ -2,63 +2,80 @@
 
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
-class Sorter {
+class Sorter extends \Illuminate\Database\Eloquent\Model
+{
     use \Media24si\Utilities\Scopes\Sorter;
 }
 
 class SorterTestTest extends TestCase
 {
-    /**
-     * @var Sorter
-     */
-    private $sorter;
-
-    protected function setUp()
+    public function tearDown()
     {
-        parent::setUp();
-        $this->sorter = new Sorter();
+        m::close();
     }
 
     /** @test */
     public function doNotAddOrderForEmptyValue()
     {
-        $qb = $this->getMySqlBuilder()->from('john');
-        $this->sorter->scopeSorter($qb, '');
+        $builder = $this->getBuilder();
+        $builder->getQuery()->shouldReceive('from');
+        $builder->getQuery()->shouldNotReceive('orderBy');
+        $builder->setModel($model = new Sorter());
+        $result = $builder->sorter('');
 
-        $this->assertEquals(null, $qb->orders);
+        $this->assertEquals($builder, $result);
     }
 
     /** @test */
-    public function addCorrectOrder()
+    public function addCorrectOrderForOneAscField()
     {
-        $qb = $this->getMySqlBuilder()->from('john');
+        $builder = $this->getBuilder();
+        $builder->getQuery()->shouldReceive('from');
+        $builder->getQuery()->shouldReceive('orderBy')->once()->with('foo', 'asc');
+        $builder->setModel($model = new Sorter());
+        $result = $builder->sorter('foo');
 
-        $this->assertEquals(
-            [['column' => 'foo', 'direction' => 'asc']],
-            $this->sorter->scopeSorter(clone $qb, 'foo')->orders
-        );
-
-        $this->assertEquals(
-            [['column' => 'foo', 'direction' => 'desc']],
-            $this->sorter->scopeSorter(clone $qb, '-foo')->orders
-        );
-
-        $this->assertEquals(
-            [
-                ['column' => 'foo', 'direction' => 'asc'],
-                ['column' => 'bar', 'direction' => 'desc'],
-            ],
-            $this->sorter->scopeSorter(clone $qb, 'foo,-bar')->orders
-        );
+        $this->assertEquals($builder, $result);
     }
 
-    protected function getMySqlBuilder()
+    /** @test */
+    public function addCorrectOrderForOneDescField()
     {
-        $grammar = new \Illuminate\Database\Query\Grammars\MySqlGrammar;
-        $processor = m::mock('Illuminate\Database\Query\Processors\Processor');
-        return new Builder(m::mock('Illuminate\Database\ConnectionInterface'), $grammar, $processor);
+        $builder = $this->getBuilder();
+        $builder->getQuery()->shouldReceive('from');
+        $builder->getQuery()->shouldReceive('orderBy')->once()->with('foo', 'desc');
+        $builder->setModel($model = new Sorter());
+        $result = $builder->sorter('-foo');
+
+        $this->assertEquals($builder, $result);
     }
-    
+
+    /** @test */
+    public function addCorrectOrderForMoreFields()
+    {
+        $builder = $this->getBuilder();
+        $builder->getQuery()->shouldReceive('from');
+        $builder->getQuery()->shouldReceive('orderBy')->once()->with('foo', 'asc');
+        $builder->getQuery()->shouldReceive('orderBy')->once()->with('bar', 'desc');
+        $builder->getQuery()->shouldReceive('orderBy')->once()->with('john', 'desc');
+        $builder->setModel($model = new Sorter());
+        $result = $builder->sorter('foo,-bar,-john');
+
+        $this->assertEquals($builder, $result);
+    }
+
+    protected function getBuilder()
+    {
+        return new Builder($this->getMockQueryBuilder());
+    }
+
+    protected function getMockQueryBuilder()
+    {
+        $query = m::mock('Illuminate\Database\Query\Builder');
+        $query->shouldReceive('from')->with('foo_table');
+
+        return $query;
+    }
 }

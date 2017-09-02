@@ -2,9 +2,11 @@
 
 namespace Media24si\Utilities\Scopes;
 
+use Illuminate\Database\Eloquent\Builder;
+
 trait Sorter
 {
-    public function scopeSorter($query, $sortString)
+    public function scopeSorter(Builder $query, $sortString) : Builder
     {
         if (!$sortString) {
             return $query;
