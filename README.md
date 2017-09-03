@@ -2,10 +2,14 @@
 
 Collection of utilities we use in almost all projects.
 
+[![Build Status](https://travis-ci.org/Media24si/Utilities.svg?branch=master)](https://travis-ci.org/Media24si/Utilities)
+
 # List of utilities
 
 1. [Sorter](#sorter)
-2. Rule
+2. Scopes
+    1. [WhereWhen](#wherewhen)
+3. Rules
     1. [CsvIn](#csvin)
 
 # Utilities
@@ -34,6 +38,36 @@ public function index(Request $request) {
     
     $posts = \App\Post::sorter($request->input('sort', ''))->get();
 }
+```
+
+## Scopes
+### WhereWhen
+WhereWhen scope trait is extension to when method
+
+```php
+$model->whereWhen('foo');
+// same as
+$model->when(request('foo'), function($query) {
+  return $query->where('foo', request('foo'));
+});
+
+$model->whereWhen('foo', 'bar');
+// same as
+$model->when(request('bar'), function($query) {
+  return $query->where('foo', request('bar'));
+});
+
+$model->whereWhen('foo', 'bar', '<');
+// same as
+$model->when(request('bar'), function($query) {
+  return $query->where('foo', '<', request('bar'));
+});
+
+$model->whereWhen('foo', 'bar', null, new Request(['bar' => 'foo']));
+// same as
+$model->when($request->input('bar'), function($query) {
+  return $query->where('foo', $request->input('bar'));
+});
 ```
 
 ## Rules
