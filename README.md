@@ -72,9 +72,10 @@ $model->when($request->input('bar'), function($query) {
 
 ## Rules
 ### CsvIn
-Rule for validating if a sent csv value string contains valid values.
+A rule for validating if a sent csv value string exists within a given set of values.
+All sent csv values have to exist inside the provided set of values.
 
-#### Valid
+##### Valid
 
 * /api/orders?source=android,ios
 
@@ -84,7 +85,7 @@ $request->validate([
 ]);
 ```
 
-#### Invalid
+##### Invalid
 
 * /api/orders?source=android,ios,otherval
 
