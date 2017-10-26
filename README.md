@@ -6,9 +6,12 @@ A collection of utilities we use in almost all projects.
 
 # List of utilities
 
-1. [Sorter](#sorter)
+1. Utilities
+    1. [Api Paginator](#apipaginator)
+    2. [Sorter](#sorter)
 2. Scopes
     1. [WhereWhen](#wherewhen)
+    1. [ApiPaginate](#apipaginate)
 3. Rules
     1. [CsvIn](#csvin)
 
