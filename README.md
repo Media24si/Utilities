@@ -13,6 +13,33 @@ A collection of utilities we use in almost all projects.
     1. [CsvIn](#csvin)
 
 # Utilities
+
+## ApiPaginator
+An extension of the Laravel LengthAwarePaginator with a custom transformed response.
+
+Example usage:
+```php
+$model->where('foo', 'bar')->orderBy('foo', 'desc');
+$results = ApiPaginator::create($model, 15);
+```
+
+An example of the response (with `toArray()` called on the returned paginator object):
+```php
+[
+    'data' => ['item3', 'item4'],
+    'pagination' => [
+        'total' => 6,
+        'per_page' => 2,
+        'current_page' => 2,
+        'last_page' => 3,
+        'next_page_url' => '/?page=3',
+        'prev_page_url' => '/?page=1',
+        'from' => 3,
+        'to' => 4
+    ]
+]
+```
+
 ## Sorter
 A Rule for validation and trait with a scope. Primarily used to enable easy sorting in API endpoints.
 
@@ -68,6 +95,29 @@ $model->whereWhen('foo', 'bar', null, new Request(['bar' => 'foo']));
 $model->when($request->input('bar'), function($query) {
   return $query->where('foo', $request->input('bar'));
 });
+```
+
+### ApiPaginate
+The apiPaginate scope trait can be used to call the ApiPaginator on a builder instance
+
+```php
+$model->where('foo', 'bar')->orderBy('foo', 'desc')->apiPaginate(15);
+```
+
+##### Same as previously
+
+```php
+$model->where('foo', 'bar')->orderBy('foo', 'desc');
+$model = ApiPaginator::create($model, 15);
+```
+
+##### Trait usage
+To use this scope in your model, simply include it as you would any other trait.
+```php
+class MyModel extends \Illuminate\Database\Eloquent\Model
+{
+    use \Media24si\Utilities\Scopes\ApiPaginate;
+}
 ```
 
 ## Rules
