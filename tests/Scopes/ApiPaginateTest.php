@@ -6,16 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Illuminate\Database\Eloquent\Builder;
 use Media24si\Utilities\Pagination\ApiPaginator;
-
-class ApiPaginate extends \Illuminate\Database\Eloquent\Model
-{
-    use \Media24si\Utilities\Scopes\ApiPaginate;
-
-    public function hydrate()
-    {
-        return collect(['item3', 'item4']);
-    }
-}
+use Tests\Stubs\ApiPaginate;
 
 class ApiPaginateTest extends TestCase
 {

@@ -5,11 +5,7 @@ namespace Tests\Scopes;
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Illuminate\Database\Eloquent\Builder;
-
-class Sorter extends \Illuminate\Database\Eloquent\Model
-{
-    use \Media24si\Utilities\Scopes\Sorter;
-}
+use Tests\Stubs\Sorter;
 
 class SorterTest extends TestCase
 {

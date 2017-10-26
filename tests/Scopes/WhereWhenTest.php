@@ -6,11 +6,7 @@ use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Illuminate\Database\Eloquent\Builder;
-
-class WhereWhen extends \Illuminate\Database\Eloquent\Model
-{
-    use \Media24si\Utilities\Scopes\WhereWhen;
-}
+use Tests\Stubs\WhereWhen;
 
 class WhereWhenTest extends TestCase
 {
