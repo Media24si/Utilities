@@ -45,5 +45,4 @@ class ApiPaginator extends LengthAwarePaginator
     {
         $this->params[$name] = $value;
     }
-
 }
