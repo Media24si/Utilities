@@ -4,10 +4,13 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "authors": [
-        {
+    "authors": [{
             "name": "Bostjan Oblak",
             "email": "bostjan.oblak@salomon.si"
+        },
+        {
+            "name": "Adam Stradovnik",
+            "email": "adam.stradovnik@salomon.si"
         }
     ],
     "require": {

@@ -4,6 +4,12 @@ A collection of utilities we use in almost all projects.
 
 [![Build Status](https://travis-ci.org/Media24si/Utilities.svg?branch=master)](https://travis-ci.org/Media24si/Utilities)
 
+# Installation
+
+```
+composer require media24si/utilities
+```
+
 # List of utilities
 
 1. Utilities
