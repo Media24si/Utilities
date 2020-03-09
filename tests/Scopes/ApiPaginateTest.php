@@ -10,13 +10,13 @@ use Tests\Stubs\ApiPaginate;
 
 class ApiPaginateTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->model = new ApiPaginate();
         $this->p = new ApiPaginator($array = ['item3', 'item4'], 6, 2, 2);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->p);
         unset($this->model);
@@ -50,7 +50,7 @@ class ApiPaginateTest extends TestCase
                 'prev_page_url' => null,
                 'from' => 1,
                 'to' => 2
-            ]
+            ],
         ];
         $this->assertEquals($pageInfo, $result->toArray());
     }
@@ -64,7 +64,7 @@ class ApiPaginateTest extends TestCase
     {
         $query = m::mock(\Illuminate\Database\Query\Builder::class, [
             m::mock('Illuminate\Database\ConnectionInterface'),
-            new \Illuminate\Database\Query\Grammars\Grammar,
+            new \Illuminate\Database\Query\Grammars\Grammar(),
             m::mock('Illuminate\Database\Query\Processors\Processor'),
         ])->makePartial();
 

@@ -22,7 +22,7 @@ class ApiPaginator extends LengthAwarePaginator
                 'prev_page_url' => $this->previousPageUrl(),
                 'from' => $this->firstItem(),
                 'to' => $this->lastItem()
-            ]
+            ],
         ], $this->params);
     }
 

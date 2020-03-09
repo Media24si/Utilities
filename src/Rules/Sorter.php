@@ -32,7 +32,7 @@ class Sorter implements Rule
     {
         return !$value ? true : collect(explode(',', $value))->transform(function ($item) {
                 return ltrim($item, '-');
-            })->diff($this->options)->count() === 0;
+        })->diff($this->options)->count() === 0;
     }
 
     /**

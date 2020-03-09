@@ -9,7 +9,7 @@ use Tests\Stubs\Sorter;
 
 class SorterTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

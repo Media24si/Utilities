@@ -8,12 +8,12 @@ use Media24si\Utilities\Pagination\ApiPaginator;
 
 class ApiPaginatorTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->p = new ApiPaginator($array = ['item3', 'item4'], 6, 2, 2);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->p);
         m::close();
@@ -37,7 +37,7 @@ class ApiPaginatorTest extends TestCase
                 'prev_page_url' => '/?page=1',
                 'from' => 3,
                 'to' => 4
-            ]
+            ],
         ];
         $this->assertEquals($pageInfo, $this->p->toArray());
     }
@@ -64,7 +64,7 @@ class ApiPaginatorTest extends TestCase
                 'prev_page_url' => '/?page=1',
                 'from' => 3,
                 'to' => 4
-            ]
+            ],
         ];
         $this->assertEquals($pageInfo, $this->p->toArray());
     }
@@ -76,7 +76,7 @@ class ApiPaginatorTest extends TestCase
     {
         $builder = m::mock('Illuminate\Database\Query\Builder', [
             m::mock('Illuminate\Database\ConnectionInterface'),
-            new \Illuminate\Database\Query\Grammars\Grammar,
+            new \Illuminate\Database\Query\Grammars\Grammar(),
             m::mock('Illuminate\Database\Query\Processors\Processor'),
         ])->makePartial();
 

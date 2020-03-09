@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait Sorter
 {
-    public function scopeSorter(Builder $query, $sortString) : Builder
+    public function scopeSorter(Builder $query, $sortString): Builder
     {
         if (!$sortString) {
             return $query;

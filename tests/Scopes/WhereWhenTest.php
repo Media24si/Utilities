@@ -10,7 +10,7 @@ use Tests\Stubs\WhereWhen;
 
 class WhereWhenTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

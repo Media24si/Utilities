@@ -70,7 +70,8 @@ class SorterTest extends TestCase
     public function getIlluminateArrayTranslator()
     {
         return new \Illuminate\Translation\Translator(
-            new \Illuminate\Translation\ArrayLoader, 'en'
+            new \Illuminate\Translation\ArrayLoader(),
+            'en'
         );
     }
 }
