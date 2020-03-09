@@ -4,6 +4,10 @@ A collection of utilities we use in almost all projects.
 
 [![Build Status](https://travis-ci.org/Media24si/Utilities.svg?branch=master)](https://travis-ci.org/Media24si/Utilities)
 
+# Compatibility
+
+Use the 1.* version for Laravel 5.* / 6.*
+
 # Installation
 
 ```
